@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block title %}Entrar | ListaFácil{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    <h1>Entrar no ListaFácil</h1>
+    <p>Acesse sua conta para gerenciar seus produtos.</p>
+
+    {% if form.errors %}
+        <p class="error-message">
+            Usuário ou senha inválidos. Tente novamente.
+        </p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input
+            type="hidden"
+            name="next"
+            value="{{ next|default:'/produtos/' }}"
+        >
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p>
+        Ainda não tem conta?
+        <a href="{% url 'usuarios:cadastro' %}">Cadastre-se</a>
+    </p>
+</section>
+{% endblock %}

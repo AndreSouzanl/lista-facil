@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+{% block title %}Meus produtos | ListaFácil{% endblock %}
+
+{% block content %}
+<h1>Minha lista de compras</h1>
+
+
+<a href="{% url 'produtos:criar' %}" class="btn-primary">
+    + Adicionar produto
+</a>
+
+
+<p>Bem-vindo, {{ request.user.username }}!</p>
+<p>Aqui você poderá consultar e organizar seus produtos.</p>
+
+{% if produtos %}
+    <ul>
+        {% for produto in produtos %}
+            <li>
+                <strong>{{ produto.nome }}</strong>
+                — {{ produto.quantidade }}
+                {{ produto.get_unidade_display }}
+                — {{ produto.get_status_display }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Você ainda não possui produtos cadastrados.</p>
+{% endif %}
+{% endblock %}

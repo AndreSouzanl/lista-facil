@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ListaFácil{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    
+<header>
+    <nav class="navbar">
+        <a href="/" class="logo">ListaFácil</a>
+
+        <div class="nav-links">
+            {% if request.user.is_authenticated %}
+                <span class="user-name">
+                    Olá, {{ request.user.username }}
+                </span>
+
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">
+                        Sair
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'usuarios:cadastro' %}" class="btn-primary">
+                    Criar conta
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+
+
+    <main class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

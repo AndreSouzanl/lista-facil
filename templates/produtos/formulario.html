@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block title %}Adicionar produto | ListaFácil{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    <h1>Adicionar produto</h1>
+    <p>Cadastre um produto na sua lista de compras.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Adicionar à lista</button>
+    </form>
+
+    <p>
+        <a href="{% url 'produtos:lista' %}">
+            Voltar para minha lista
+        </a>
+    </p>
+</section>
+{% endblock %}
