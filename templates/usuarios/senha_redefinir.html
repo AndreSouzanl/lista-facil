@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Criar nova senha | ListaFácil
+{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    {% if validlink %}
+        <h1>Crie uma nova senha</h1>
+
+        <p>
+            Digite sua nova senha e confirme para recuperar
+            o acesso à sua conta.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Salvar nova senha
+            </button>
+        </form>
+    {% else %}
+        <h1>Link inválido ou expirado</h1>
+
+        <p>
+            Este link de recuperação não é válido ou já foi utilizado.
+            Solicite um novo link para redefinir sua senha.
+        </p>
+
+        <a href="{% url 'usuarios:senha_esqueci' %}">
+            Solicitar novo link
+        </a>
+    {% endif %}
+</section>
+{% endblock %}

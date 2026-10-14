@@ -1,0 +1,12 @@
+Olá, {{ user.get_username }}!
+
+Recebemos uma solicitação para redefinir a senha da sua conta no ListaFácil.
+
+Para cadastrar uma nova senha, acesse o link abaixo:
+
+{{ protocol }}://{{ domain }}{% url 'usuarios:senha_redefinir' uidb64=uid token=token %}
+
+Se você não solicitou a recuperação da senha, ignore esta mensagem. Sua senha atual continuará a mesma.
+
+Atenciosamente,
+Equipe ListaFácil

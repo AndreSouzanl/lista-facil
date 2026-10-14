@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Recuperação solicitada | ListaFácil
+{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    <h1>Confira seu e-mail</h1>
+
+    <p>
+        Se existir uma conta associada ao e-mail informado,
+        enviaremos um link para redefinir sua senha.
+    </p>
+
+    <p>
+        Caso não receba a mensagem, confira a caixa de spam
+        e verifique se informou o endereço correto.
+    </p>
+
+    <p>
+        <a href="{% url 'login' %}">
+            Voltar para o login
+        </a>
+    </p>
+</section>
+{% endblock %}

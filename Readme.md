@@ -14,26 +14,29 @@ O projeto está em desenvolvimento e tem como objetivo oferecer uma experiência
 
 - 👤 **Cadastro de usuários:** criação de conta com nome de usuário, e-mail e senha.
 - 🔐 **Autenticação:** login e logout utilizando os recursos do Django.
+- 🔑 **Recuperação de senha:** solicitação de recuperação, geração de link temporário e cadastro de uma nova senha, utilizando os recursos nativos de autenticação do Django.
 - 🛍️ **Cadastro de produtos:** inclusão de nome, quantidade e unidade de medida.
 - 📋 **Listagem de produtos:** visualização dos produtos cadastrados pelo usuário conectado.
 - 🔒 **Separação por usuário:** cada usuário visualiza e gerencia apenas os próprios produtos.
 - ✏️ **Edição de produtos:** atualização das informações dos produtos cadastrados.
 - ✅ **Controle de compras:** marcação de produtos como comprados ou pendentes.
 - 🗑️ **Remoção lógica:** produtos removidos deixam de aparecer na lista, mas permanecem registrados no banco de dados.
-- ♻️ **Reativação de produtos:** recuperação de produtos removidos anteriormente, sem criar registros duplicados.
-- 🚫 **Validação de duplicidade:** prevenção de cadastros repetidos para o mesmo usuário, com mensagem de orientação.
+- ♻️ **Reativação de produtos:** recuperação de produtos removidos anteriormente, preservando o registro original.
+- 🚫 **Validação de duplicidade:** prevenção de cadastros repetidos para o mesmo usuário, com mensagens de orientação.
 - 📊 **Resumo da lista:** exibição do total de produtos, comprados e pendentes.
 - 💬 **Mensagens de feedback:** confirmação das operações realizadas e avisos ao usuário.
 - 📱 **Interface responsiva:** estilos preparados para diferentes tamanhos de tela.
 - 🔐 **Proteção de páginas:** acesso às funcionalidades da lista restrito a usuários autenticados.
 
-### 🚧 Próximas funcionalidades
+**Observação sobre a recuperação de senha:** o fluxo foi testado no ambiente local, incluindo a geração do link, a redefinição da senha e o login com a nova senha. Atualmente, o conteúdo do e-mail é exibido no terminal. O envio para uma caixa de entrada real será configurado na etapa de publicação.
 
-- 📄 Paginação da lista de produtos.
-- 🔎 Filtros para visualizar produtos pendentes, comprados e todos os produtos.
-- 🎨 Melhorias contínuas na experiência visual e na usabilidade.
-- 🧪 Ampliação dos testes automatizados.
-- 🚀 Preparação e publicação da aplicação em ambiente de produção.
+### 🛠️ Próximas funcionalidades
+
+- 📄 **Paginação:** dividir a lista de produtos em páginas para facilitar a navegação.
+- 🔎 **Filtros de visualização:** permitir visualizar todos os produtos, apenas os pendentes ou apenas os comprados.
+- 🧪 **Testes automatizados:** testar autenticação, cadastro, recuperação de senha, edição, remoção, reativação e controle de acesso.
+- 🎨 **Melhorias visuais:** aprimorar continuamente a experiência e a usabilidade.
+- 🚀 **Publicação:** preparar e disponibilizar a aplicação em ambiente de produção, incluindo o envio real de e-mails e a revisão das configurações de segurança.
 
 ---
 
@@ -81,7 +84,13 @@ lista_facil/
 │   ├── registration/
 │   │   └── login.html
 │   ├── usuarios/
-│   │   └── cadastro.html
+│   │   ├── cadastro.html
+│   │   ├── senha_esqueci.html
+│   │   ├── senha_enviada.html
+│   │   ├── senha_redefinir.html
+│   │   ├── senha_redefinida.html
+│   │   ├── email_redefinir_senha.txt
+│   │   └── assunto_redefinir_senha.txt
 │   └── produtos/
 │       ├── lista.html
 │       └── formulario.html
@@ -95,7 +104,7 @@ lista_facil/
 └── README.md
 ```
 
-*Observação: a estrutura apresenta os principais arquivos do projeto e pode variar conforme a evolução da aplicação. O banco `db.sqlite3` é utilizado no ambiente local de desenvolvimento.*
+**Observação:** a estrutura apresenta os principais arquivos do projeto e pode variar conforme sua evolução. O banco `db.sqlite3` é utilizado no ambiente local de desenvolvimento.
 
 ---
 
@@ -115,21 +124,19 @@ No terminal do VS Code, execute:
 cd P:\programação_curso\lista_facil
 ```
 
-### 3. Ativar o ambiente virtual
+### 3. Criar e ativar o ambiente virtual
 
-No Windows PowerShell:
-
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-
-Caso o ambiente virtual ainda não exista, crie-o com:
+Caso o ambiente virtual ainda não exista, crie-o:
 
 ```powershell
 python -m venv venv
 ```
 
-Em seguida, ative-o.
+Ative o ambiente no Windows PowerShell:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
 
 ### 4. Instalar o Django
 
@@ -169,6 +176,10 @@ A aplicação estará disponível localmente em:
 |---|---|
 | Login | `/login/` |
 | Cadastro de usuário | `/usuarios/cadastro/` |
+| Solicitação de recuperação de senha | `/usuarios/senha/esqueci/` |
+| Confirmação da solicitação de recuperação | `/usuarios/senha/enviada/` |
+| Redefinição de senha | `/usuarios/senha/redefinir/<uidb64>/<token>/` |
+| Confirmação da nova senha | `/usuarios/senha/redefinida/` |
 | Lista de compras | `/produtos/` |
 | Adicionar produto | `/produtos/novo/` |
 
@@ -180,14 +191,14 @@ O modelo `Produto` contempla:
 
 - Nome do produto.
 - Quantidade e unidade de medida.
-- Descrição mantida no modelo de dados, embora não seja mais exibida no formulário atual.
+- Descrição mantida no modelo de dados, mas não exibida no formulário atual.
 - Data de cadastro e última atualização.
 - Status do produto.
 - Usuário responsável pela criação, atualização e remoção.
 
 As unidades de medida disponíveis incluem unidade, quilograma, grama, litro, caixa, metro e pacote.
 
-Os status utilizados são:
+### Status dos produtos
 
 | Status | Descrição |
 |---|---|
@@ -196,7 +207,7 @@ Os status utilizados são:
 | `finalizado` | Produto marcado como comprado. |
 | `removido` | Produto retirado da lista por remoção lógica. |
 
-O modelo também possui uma restrição de unicidade para evitar que o mesmo usuário cadastre mais de um registro com o mesmo nome. A reativação permite recuperar um produto removido, preservando seu registro original.
+O modelo possui uma restrição de unicidade que evita registros duplicados com o mesmo nome para um mesmo usuário. A reativação recupera um produto removido, preservando seu registro original.
 
 ---
 
@@ -204,11 +215,13 @@ O modelo também possui uma restrição de unicidade para evitar que o mesmo usu
 
 O ListaFácil é um projeto de aprendizado e desenvolvimento contínuo, utilizado para aprofundar conhecimentos em Python, Django, desenvolvimento web, autenticação, modelagem de dados e criação de interfaces responsivas.
 
-A proposta é evoluir gradualmente a aplicação, implementando funcionalidades reais e aplicando boas práticas de desenvolvimento de software, organização de código e segurança.
+A proposta é evoluir gradualmente a aplicação, implementando funcionalidades reais e aplicando boas práticas de desenvolvimento de software, organização de código, segurança e manutenção.
 
 ---
 
 ## 🗺️ Roadmap
+
+### Funcionalidades concluídas
 
 - [x] Configuração inicial do Django.
 - [x] Criação dos aplicativos `usuarios` e `produtos`.
@@ -224,10 +237,19 @@ A proposta é evoluir gradualmente a aplicação, implementando funcionalidades 
 - [x] Reativação de produtos removidos.
 - [x] Validação de produtos duplicados.
 - [x] Resumo de produtos, comprados e pendentes.
-- [ ] Implementação da paginação.
-- [ ] Implementação de filtros de visualização.
-- [ ] Ampliação dos testes automatizados.
-- [ ] Preparação para publicação em produção.
+- [x] Recuperação de senha com geração de link temporário.
+- [x] Redefinição de senha e teste de login com a nova senha.
+
+### Próximas etapas
+
+- [ ] Implementar a paginação da lista de produtos.
+- [ ] Implementar filtros de visualização.
+- [ ] Criar testes automatizados.
+- [ ] Aprimorar a interface e a usabilidade.
+- [ ] Configurar o envio real de e-mails para recuperação de senha.
+- [ ] Revisar a segurança e as configurações da aplicação.
+- [ ] Criar o `requirements.txt` com as dependências do projeto.
+- [ ] Preparar a aplicação para publicação em produção.
 
 ---
 
