@@ -7,16 +7,38 @@
     box-sizing: border-box;
 }
 
+:root {
+    --cor-principal: #0d9488;
+    --cor-principal-hover: #0f766e;
+    --cor-texto: #1f2937;
+    --cor-texto-secundario: #6b7280;
+    --cor-borda: #e5e7eb;
+    --cor-fundo: #f5f7fa;
+    --cor-branca: #ffffff;
+    --cor-sucesso: #15803d;
+    --cor-sucesso-fundo: #dcfce7;
+    --cor-alerta: #92400e;
+    --cor-alerta-fundo: #fef3c7;
+    --cor-perigo: #b91c1c;
+    --cor-perigo-fundo: #fee2e2;
+    --sombra-card: 0 4px 14px rgb(15 23 42 / 4%);
+}
+
+html {
+    min-height: 100%;
+}
+
 body {
+    min-height: 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f5f7fa;
-    color: #252525;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
     line-height: 1.6;
 }
 
 a {
-    color: #0f766e;
+    color: var(--cor-principal-hover);
     text-decoration: none;
 }
 
@@ -24,25 +46,65 @@ a:hover {
     text-decoration: underline;
 }
 
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button,
+.btn-primary,
+.btn-logout,
+.btn-acao {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgb(13 148 136 / 30%);
+    outline-offset: 2px;
+}
+
+p {
+    overflow-wrap: anywhere;
+}
+
 /* ========================================
-   2. CABEÇALHO
+   2. CABEÇALHO E NAVEGAÇÃO
 ======================================== */
 
 header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
     padding: 18px 24px;
+    background: var(--cor-branca);
+    border-bottom: 1px solid var(--cor-borda);
 }
 
-header nav {
-    width: min(100% - 32px, 1100px);
+header nav,
+.navbar {
+    width: min(100%, 1100px);
     margin: 0 auto;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .logo {
     color: #16794b;
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
     text-decoration: none;
 }
 
@@ -50,19 +112,54 @@ header nav {
     text-decoration: none;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.user-name {
+    color: #4b5563;
+    font-size: 0.92rem;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.btn-logout {
+    padding: 9px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: #f3f4f6;
+}
+
+.nav-links .btn-primary {
+    margin: 0;
+}
+
 /* ========================================
    3. CONTEÚDO PRINCIPAL
 ======================================== */
 
 .container {
-    width: min(100% - 32px, 1100px);
-    margin: 32px auto;
+    width: min(100% - 40px, 1100px);
+    margin: 36px auto;
 }
 
 h1,
 h2,
 h3 {
-    color: #1f2937;
+    color: var(--cor-texto);
     line-height: 1.3;
 }
 
@@ -75,16 +172,16 @@ h1 {
 ======================================== */
 
 .message {
+    margin-bottom: 18px;
     padding: 12px 16px;
-    margin-bottom: 16px;
-    background-color: #e8f5ed;
     border: 1px solid #b7e4c7;
-    border-radius: 8px;
+    border-radius: 10px;
+    background: #e8f5ed;
     color: #166534;
 }
 
 /* ========================================
-   5. CARTÃO DOS FORMULÁRIOS
+   5. FORMULÁRIOS
 ======================================== */
 
 .form-card {
@@ -92,24 +189,19 @@ h1 {
     max-width: 560px;
     margin: 32px auto;
     padding: 32px;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--cor-borda);
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    background: var(--cor-branca);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 5%);
 }
 
 .form-card h1 {
-    margin-top: 0;
-    margin-bottom: 8px;
+    margin: 0 0 8px;
 }
 
 .form-card > p {
-    color: #6b7280;
+    color: var(--cor-texto-secundario);
 }
-
-/* ========================================
-   6. CAMPOS DOS FORMULÁRIOS
-======================================== */
 
 .form-card form {
     margin-top: 24px;
@@ -121,12 +213,10 @@ h1 {
 
 .form-card label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     color: #374151;
     font-weight: 600;
 }
-
-/* Campos de texto, senha, número, e-mail e similares */
 
 .form-card input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
 .form-card textarea,
@@ -137,54 +227,38 @@ h1 {
     padding: 12px 14px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
-    background-color: #ffffff;
-    color: #1f2937;
-    font-family: inherit;
+    background: #ffffff;
+    color: var(--cor-texto);
     font-size: 1rem;
-    line-height: 1.4;
-    box-sizing: border-box;
 }
 
-/* Área de descrição */
-
 .form-card textarea {
-    min-height: 100px;
+    min-height: 110px;
     resize: vertical;
 }
 
-/* Seletor de unidade de medida */
-
 .form-card select {
-    padding-right: 40px;
     cursor: pointer;
-    appearance: auto;
 }
-
-/* Destaque ao selecionar ou preencher um campo */
 
 .form-card input:focus,
 .form-card textarea:focus,
 .form-card select:focus {
     outline: none;
-    border-color: #0d9488;
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    border-color: var(--cor-principal);
+    box-shadow: 0 0 0 3px rgb(13 148 136 / 14%);
 }
-
-/* Orientações auxiliares */
 
 .form-card .helptext {
     display: block;
     margin-top: 6px;
-    color: #6b7280;
+    color: var(--cor-texto-secundario);
     font-size: 0.85rem;
-    line-height: 1.5;
 }
-
-/* Mensagens de validação */
 
 .form-card .errorlist,
 .form-card .error-message {
-    color: #b91c1c;
+    color: var(--cor-perigo);
     font-size: 0.9rem;
 }
 
@@ -193,27 +267,20 @@ h1 {
     padding-left: 20px;
 }
 
-/* ========================================
-   7. BOTÕES
-======================================== */
-
 .form-card button[type="submit"] {
     display: block;
     width: 100%;
     padding: 13px 18px;
     border: none;
-    border-radius: 8px;
-    background-color: #0d9488;
+    border-radius: 9px;
+    background: var(--cor-principal);
     color: #ffffff;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
 }
 
 .form-card button[type="submit"]:hover {
-    background-color: #0f766e;
+    background: var(--cor-principal-hover);
 }
 
 .form-card button[type="submit"]:active {
@@ -221,7 +288,384 @@ h1 {
 }
 
 /* ========================================
-   8. LISTA DE PRODUTOS
+   6. BOTÃO PRINCIPAL
+======================================== */
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border: 1px solid var(--cor-principal);
+    border-radius: 9px;
+    background: var(--cor-principal);
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    border-color: var(--cor-principal-hover);
+    background: var(--cor-principal-hover);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* ========================================
+   7. PÁGINA DA LISTA DE COMPRAS
+======================================== */
+
+.lista-container {
+    width: min(100% - 40px, 1100px);
+    margin: 36px auto;
+}
+
+.lista-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.lista-header h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.7rem, 4vw, 2.25rem);
+    letter-spacing: -0.7px;
+}
+
+.lista-header p {
+    margin: 0;
+    color: var(--cor-texto-secundario);
+}
+
+.lista-header .btn-primary {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.lista-etiqueta {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--cor-principal-hover);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+/* ========================================
+   8. CARTÕES DE RESUMO
+======================================== */
+
+.lista-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 34px;
+}
+
+.resumo-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 14px;
+    background: var(--cor-branca);
+    box-shadow: var(--sombra-card);
+}
+
+.resumo-icone {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 12px;
+    background: #e6f4f1;
+    color: var(--cor-principal-hover);
+    font-size: 1.5rem;
+}
+
+.resumo-card p,
+.resumo-label {
+    margin: 0 0 4px;
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+}
+
+.resumo-card h2,
+.resumo-valor {
+    margin: 0;
+    color: var(--cor-texto);
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* ========================================
+   9. SEÇÃO DE PRODUTOS
+======================================== */
+
+.produtos-section {
+    margin-top: 12px;
+}
+
+.produtos-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.produtos-section-header h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.produtos-section-header p {
+    margin: 6px 0 0;
+    color: var(--cor-texto-secundario);
+}
+
+.produtos-section-header > span {
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+/* ========================================
+   10. TABELA DE PRODUTOS
+======================================== */
+
+.tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--cor-borda);
+    border-radius: 14px;
+    background: var(--cor-branca);
+    box-shadow: var(--sombra-card);
+}
+
+.tabela-produtos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabela-produtos thead {
+    background: #f8fafc;
+}
+
+.tabela-produtos th {
+    padding: 15px 16px;
+    color: #56616d;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.45px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tabela-produtos td {
+    padding: 17px 16px;
+    border-top: 1px solid #edf0f2;
+    color: #374151;
+    font-size: 0.93rem;
+    vertical-align: middle;
+}
+
+.tabela-produtos tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.tabela-produtos tbody tr:hover {
+    background: #f8fbfa;
+}
+
+.tabela-produtos th:first-child,
+.tabela-produtos td:first-child {
+    width: 88px;
+    text-align: center;
+}
+
+.tabela-produtos th:last-child,
+.tabela-produtos td:last-child {
+    width: 110px;
+    text-align: center;
+}
+
+.tabela-produto-nome {
+    display: block;
+    color: #222222;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.tabela-produto-descricao {
+    display: block;
+    margin-top: 5px;
+    color: var(--cor-texto-secundario);
+    font-size: 0.82rem;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+}
+
+.tabela-quantidade {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* ========================================
+   11. CHECKBOX E PRODUTOS COMPRADOS
+======================================== */
+
+.form-comprado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.checkbox-comprado {
+    width: 19px;
+    height: 19px;
+    margin: 0;
+    accent-color: var(--cor-sucesso);
+    cursor: pointer;
+}
+
+.produto-comprado {
+    background: #f8fafc;
+}
+
+.produto-comprado .tabela-produto-nome {
+    color: #64748b;
+    text-decoration: line-through;
+}
+
+.produto-comprado .tabela-produto-descricao {
+    text-decoration: none;
+}
+
+/* ========================================
+   12. STATUS DOS PRODUTOS
+======================================== */
+
+.produto-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #e6f4f1;
+    color: #0f766e;
+    font-size: 0.75rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.status-editado {
+    background: var(--cor-alerta-fundo);
+    color: var(--cor-alerta);
+}
+
+.status-finalizado {
+    background: var(--cor-sucesso-fundo);
+    color: var(--cor-sucesso);
+}
+
+.status-removido {
+    background: var(--cor-perigo-fundo);
+    color: var(--cor-perigo);
+}
+
+/* ========================================
+   13. AÇÕES: EDITAR E EXCLUIR
+======================================== */
+
+.acoes-produto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.form-excluir {
+    display: inline-flex;
+    margin: 0;
+}
+
+.btn-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-acao:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.btn-editar:hover {
+    border-color: #93c5fd;
+    background: #eff6ff;
+}
+
+.btn-excluir:hover {
+    border-color: #fca5a5;
+    background: #fef2f2;
+}
+
+/* ========================================
+   14. LISTA VAZIA
+======================================== */
+
+.lista-vazia {
+    padding: 44px 20px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 14px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.lista-vazia > span,
+.lista-vazia-icone {
+    font-size: 2.5rem;
+}
+
+.lista-vazia h3 {
+    margin: 16px 0 8px;
+}
+
+.lista-vazia p {
+    max-width: 440px;
+    margin: 0 auto 22px;
+    color: var(--cor-texto-secundario);
+}
+
+.lista-vazia .btn-primary {
+    display: inline-flex;
+    margin-top: 12px;
+}
+
+/* ========================================
+   15. ESTILOS LEGADOS
 ======================================== */
 
 .product-list {
@@ -232,118 +676,229 @@ h1 {
 .product-list li {
     margin-bottom: 12px;
     padding: 16px;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--cor-borda);
     border-radius: 10px;
+    background: #ffffff;
 }
 
 /* ========================================
-   9. RESPONSIVIDADE
+   16. RESPONSIVIDADE
 ======================================== */
 
-@media (max-width: 600px) {
-    header {
-        padding: 16px 12px;
+@media (max-width: 900px) {
+    .lista-container {
+        width: min(100% - 32px, 1100px);
+        margin: 28px auto;
     }
 
-    header nav {
+    .tabela-produtos th,
+    .tabela-produtos td {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .resumo-card {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 700px) {
+    header {
+        padding: 16px 18px;
+    }
+
+    .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nav-links {
         width: 100%;
+        justify-content: flex-start;
+        gap: 10px 14px;
     }
 
     .container {
-        width: calc(100% - 24px);
-        margin: 20px auto;
+        width: calc(100% - 28px);
+        margin: 24px auto;
+    }
+
+    .lista-container {
+        width: calc(100% - 28px);
+        margin: 24px auto;
+    }
+
+    .lista-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .lista-header .btn-primary {
+        width: 100%;
+    }
+
+    .lista-resumo {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 26px;
+    }
+
+    .resumo-card {
+        padding: 18px;
     }
 
     .form-card {
-        width: 100%;
         margin: 20px auto;
-        padding: 22px 18px;
-        border-radius: 12px;
+        padding: 24px 20px;
     }
 
     .form-card h1,
     h1 {
         font-size: 1.5rem;
     }
+
+    .produtos-section-header {
+        align-items: flex-start;
+    }
+
+    .produtos-section-header h2 {
+        font-size: 1.2rem;
+    }
 }
 
-/* Botão de ação da lista de compras */
-.btn-primary {
-    display: inline-block;
-    margin: 12px 0 20px;
-    padding: 12px 18px;
-    border-radius: 8px;
-    background-color: #0d9488;
-    color: #ffffff;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.btn-primary:hover {
-    background-color: #0f766e;
-    color: #ffffff;
-    text-decoration: none;
-}
-
-
-/* Navegação do cabeçalho */
-.navbar {
-    width: min(100% - 32px, 1100px);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.user-name {
-    color: #4b5563;
-    font-size: 0.95rem;
-}
-
-.logout-form {
-    margin: 0;
-}
-
-.btn-logout {
-    padding: 9px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    background-color: #ffffff;
-    color: #374151;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.btn-logout:hover {
-    background-color: #f3f4f6;
-}
-
-.nav-links .btn-primary {
-    margin: 0;
-}
+/* Cada produto vira um cartão em telas pequenas */
 
 @media (max-width: 600px) {
-    .navbar {
+    .tabela-responsiva {
+        overflow: visible;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .tabela-produtos,
+    .tabela-produtos tbody {
+        display: block;
         width: 100%;
-        flex-wrap: wrap;
     }
 
-    .nav-links {
-        flex-wrap: wrap;
-        gap: 10px;
+    .tabela-produtos thead {
+        display: none;
     }
 
-    .user-name {
-        font-size: 0.85rem;
+    .tabela-produtos tbody {
+        display: grid;
+        gap: 12px;
+    }
+
+    .tabela-produtos tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 14px 12px;
+        padding: 16px;
+        border: 1px solid var(--cor-borda);
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 3%);
+    }
+
+    .tabela-produtos tbody tr:hover {
+        background: #ffffff;
+    }
+
+    .tabela-produtos tbody tr.produto-comprado {
+        background: #f8fafc;
+    }
+
+    .tabela-produtos td {
+        width: auto;
+        min-width: 0;
+        padding: 0;
+        border: none;
+        text-align: left;
+        overflow-wrap: anywhere;
+    }
+
+    .tabela-produtos td:first-child {
+        grid-column: 1 / -1;
+        width: auto;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #edf0f2;
+        text-align: left;
+    }
+
+    .tabela-produtos td:first-child::before {
+        margin-right: 8px;
+        color: var(--cor-texto-secundario);
+        content: "Marcar como comprado:";
+        font-size: 0.82rem;
+    }
+
+    .form-comprado {
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .tabela-produtos td:nth-child(2) {
+        grid-column: 1 / -1;
+    }
+
+    .tabela-produtos td:nth-child(2)::before,
+    .tabela-produtos td:nth-child(3)::before,
+    .tabela-produtos td:nth-child(4)::before {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--cor-texto-secundario);
+        font-size: 0.78rem;
+        font-weight: 500;
+    }
+
+    .tabela-produtos td:nth-child(2)::before {
+        content: "Produto";
+    }
+
+    .tabela-produtos td:nth-child(3)::before {
+        content: "Quantidade";
+    }
+
+    .tabela-produtos td:nth-child(4)::before {
+        content: "Unidade";
+    }
+
+    .tabela-produtos td:nth-child(5) {
+        grid-column: 1 / -1;
+    }
+
+    .tabela-produtos td:nth-child(5)::before {
+        margin-right: 8px;
+        color: var(--cor-texto-secundario);
+        content: "Status:";
+        font-size: 0.82rem;
+    }
+
+    .tabela-produtos td:nth-child(6) {
+        grid-column: 1 / -1;
+        width: auto;
+        padding-top: 10px;
+        border-top: 1px solid #edf0f2;
+        text-align: left;
+    }
+
+    .tabela-produtos td:nth-child(6)::before {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--cor-texto-secundario);
+        content: "Ações";
+        font-size: 0.82rem;
+    }
+
+    .acoes-produto {
+        justify-content: flex-start;
+    }
+
+    .produto-status {
+        white-space: normal;
     }
 }

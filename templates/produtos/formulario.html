@@ -1,20 +1,49 @@
-
 {% extends "base.html" %}
 
-{% block title %}Adicionar produto | ListaFácil{% endblock %}
+{% block title %}
+    {% if produto %}Editar produto{% else %}Adicionar produto{% endif %} | ListaFácil
+{% endblock %}
 
 {% block content %}
 <section class="form-card">
-    <h1>Adicionar produto</h1>
-    <p>Cadastre um produto na sua lista de compras.</p>
+    {% if produto %}
+        <h1>Editar produto</h1>
+        <p>Atualize as informações do produto da sua lista.</p>
+    {% else %}
+        <h1>Adicionar produto</h1>
+        <p>Cadastre um produto na sua lista de compras.</p>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}
 
         {{ form.as_p }}
 
-        <button type="submit">Adicionar à lista</button>
+        <button type="submit">
+            {% if produto %}Salvar alterações{% else %}Adicionar à lista{% endif %}
+        </button>
     </form>
+    {% if produto_removido %}
+        <div class="produto-reativar">
+            <h2>Este produto já foi cadastrado</h2>
+
+            <p>
+                O produto <strong>{{ produto_removido.nome }}</strong>
+                foi removido anteriormente. Deseja adicioná-lo novamente
+                à sua lista?
+            </p>
+
+            <form
+                method="post"
+                action="{% url 'produtos:reativar' produto_removido.id %}"
+            >
+                {% csrf_token %}
+                <button type="submit">
+                    Reativar produto
+                </button>
+            </form>
+        </div>
+    {% endif %}
 
     <p>
         <a href="{% url 'produtos:lista' %}">

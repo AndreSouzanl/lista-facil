@@ -1,32 +1,148 @@
-
 {% extends "base.html" %}
 
-{% block title %}Meus produtos | ListaFácil{% endblock %}
+{% block title %}Minha lista de compras | ListaFácil{% endblock %}
 
 {% block content %}
-<h1>Minha lista de compras</h1>
+<section class="lista-container">
 
+    <header class="lista-header">
+        <div>
+            <h1>Minha lista de compras</h1>
+            <p>Organize seus produtos e acompanhe o que falta comprar.</p>
+        </div>
 
-<a href="{% url 'produtos:criar' %}" class="btn-primary">
-    + Adicionar produto
-</a>
+        <a href="{% url 'produtos:criar' %}" class="btn-primary">
+            + Adicionar produto
+        </a>
+    </header>
 
+    <section class="lista-resumo">
+        <article class="resumo-card">
+            <span class="resumo-icone">🛒</span>
+            <div>
+                <p>Produtos</p>
+                <h2>{{ total_produtos }}</h2>
+            </div>
+        </article>
 
-<p>Bem-vindo, {{ request.user.username }}!</p>
-<p>Aqui você poderá consultar e organizar seus produtos.</p>
+        <article class="resumo-card">
+            <span class="resumo-icone">✓</span>
+            <div>
+                <p>Comprados</p>
+                <h2>{{ total_comprados }}</h2>
+            </div>
+        </article>
 
-{% if produtos %}
-    <ul>
-        {% for produto in produtos %}
-            <li>
-                <strong>{{ produto.nome }}</strong>
-                — {{ produto.quantidade }}
-                {{ produto.get_unidade_display }}
-                — {{ produto.get_status_display }}
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Você ainda não possui produtos cadastrados.</p>
-{% endif %}
+        <article class="resumo-card">
+            <span class="resumo-icone">⏳</span>
+            <div>
+                <p>Pendentes</p>
+                <h2>{{ total_pendentes }}</h2>
+            </div>
+        </article>
+    </section>
+
+    <section class="produtos-section">
+        <div class="produtos-section-header">
+            <h2>Seus produtos</h2>
+            <span>{{ total_produtos }} produto(s)</span>
+        </div>
+
+        {% if produtos %}
+            <div class="tabela-responsiva">
+                <table class="tabela-produtos">
+                    <thead>
+                        <tr>
+                            <th>Comprado</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Unidade</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for produto in produtos %}
+                            <tr class="{% if produto.status == 'finalizado' %}produto-comprado{% endif %}">
+                                <td data-label="Comprado">
+                                    <form
+                                        method="post"
+                                        action="{% url 'produtos:comprado' produto.id %}"
+                                        class="form-comprado"
+                                    >
+                                        {% csrf_token %}
+                                        <input
+                                            type="checkbox"
+                                            class="checkbox-comprado"
+                                            aria-label="Marcar {{ produto.nome }} como comprado"
+                                            {% if produto.status == 'finalizado' %}checked{% endif %}
+                                            onchange="this.form.submit()"
+                                        >
+                                    </form>
+                                </td>
+
+                                <td data-label="Produto">
+                                    <div class="tabela-produto-nome">
+                                        <strong>{{ produto.nome }}</strong>
+                                    </div>
+                                </td>
+
+                                <td data-label="Quantidade">
+                                    {{ produto.quantidade|floatformat:"-2" }}
+                                </td>
+
+                                <td data-label="Unidade">
+                                    {{ produto.get_unidade_display }}
+                                </td>
+
+                                <td data-label="Status">
+                                    <span class="produto-status status-{{ produto.status }}">
+                                        {{ produto.get_status_display }}
+                                    </span>
+                                </td>
+
+                                <td data-label="Ações">
+                                    <div class="acoes-produto">
+                                        <a
+                                            href="{% url 'produtos:editar' produto.id %}"
+                                            class="btn-acao btn-editar"
+                                            title="Editar produto"
+                                            aria-label="Editar {{ produto.nome }}"
+                                        >✏️</a>
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'produtos:excluir' produto.id %}"
+                                            class="form-excluir"
+                                            onsubmit="return confirm('Deseja remover este produto da sua lista?');"
+                                        >
+                                            {% csrf_token %}
+                                            <button
+                                                type="submit"
+                                                class="btn-acao btn-excluir"
+                                                title="Excluir produto"
+                                                aria-label="Excluir {{ produto.nome }}"
+                                            >🗑️</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="lista-vazia">
+                <span>🛒</span>
+                <h3>Sua lista está vazia</h3>
+                <p>Adicione seu primeiro produto para começar.</p>
+                <a href="{% url 'produtos:criar' %}" class="btn-primary">
+                    Adicionar primeiro produto
+                </a>
+            </div>
+        {% endif %}
+    </section>
+
+</section>
 {% endblock %}
