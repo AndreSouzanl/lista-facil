@@ -165,6 +165,8 @@ h3 {
 
 h1 {
     font-size: 1.8rem;
+    text-align: center;
+    color: var(--cor-principal);
 }
 
 /* ========================================
@@ -765,6 +767,74 @@ h1 {
 
     .produtos-section-header h2 {
         font-size: 1.2rem;
+    }
+}
+
+/* Paginação da lista de produtos */
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.paginas-numeros {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pagina-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+a.pagina-link:hover {
+    background-color: var(--cor-principal);
+    border-color: var(--cor-principal);
+    color: #ffffff;
+}
+
+.pagina-atual {
+    background-color: var(--cor-principal);
+    border-color: var(--cor-principal);
+    color: #ffffff;
+    cursor: default;
+}
+
+.paginacao-info {
+    margin-top: 12px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* Adaptação para celulares */
+@media (max-width: 480px) {
+    .paginacao {
+        gap: 6px;
+    }
+
+    .pagina-link {
+        min-width: 36px;
+        min-height: 36px;
+        padding: 6px 9px;
+        font-size: 13px;
     }
 }
 

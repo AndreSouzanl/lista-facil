@@ -132,6 +132,56 @@
                     </tbody>
                 </table>
             </div>
+            {% if produtos.has_other_pages %}
+                <nav class="paginacao" aria-label="Navegação de páginas">
+
+                    {% if produtos.has_previous %}
+                        <a
+                            href="?page={{ produtos.previous_page_number }}"
+                            class="pagina-link"
+                        >
+                            Anterior
+                        </a>
+                    {% endif %}
+
+                    <div class="paginas-numeros">
+                        {% for numero in produtos.paginator.page_range %}
+
+                            {% if produtos.number == numero %}
+                                <span
+                                    class="pagina-link pagina-atual"
+                                    aria-current="page"
+                                >
+                                    {{ numero }}
+                                </span>
+                            {% else %}
+                                <a
+                                    href="?page={{ numero }}"
+                                    class="pagina-link"
+                                >
+                                    {{ numero }}
+                                </a>
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+
+                    {% if produtos.has_next %}
+                        <a
+                            href="?page={{ produtos.next_page_number }}"
+                            class="pagina-link"
+                        >
+                            Próxima
+                        </a>
+                    {% endif %}
+
+             </nav>
+
+                <p class="paginacao-info">
+                    Página {{ produtos.number }}
+                    de {{ produtos.paginator.num_pages }}
+                </p>
+            {% endif %}
         {% else %}
             <div class="lista-vazia">
                 <span>🛒</span>

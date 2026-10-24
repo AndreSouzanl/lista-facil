@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.paginator import Paginator
 
 from .forms import ProdutoForm
 from .models import Produto
@@ -27,12 +28,17 @@ def lista(request):
     ).count()
 
     total_pendentes = total_produtos - total_comprados
+    
+    # Paginação: 8 produtos por página
+    paginator = Paginator(produtos, 8)
+    numero_pagina = request.GET.get("page")
+    produtos_paginados = paginator.get_page(numero_pagina)
 
     contexto = {
-        "produtos": produtos,
+        "produtos": produtos_paginados,
         "total_produtos": total_produtos,
         "total_comprados": total_comprados,
-        "total_pendentes": total_pendentes,
+        "total_pendentes": total_pendentes, 
     }
 
     return render(request, "produtos/lista.html", contexto)

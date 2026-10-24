@@ -14,7 +14,7 @@ O projeto está em desenvolvimento e tem como objetivo oferecer uma experiência
 
 - 👤 **Cadastro de usuários:** criação de conta com nome de usuário, e-mail e senha.
 - 🔐 **Autenticação:** login e logout utilizando os recursos do Django.
-- 🔑 **Recuperação de senha:** solicitação de recuperação, geração de link temporário e cadastro de uma nova senha, utilizando os recursos nativos de autenticação do Django.
+- 🔑 **Recuperação de senha:** solicitação de recuperação, geração de link temporário e cadastro de uma nova senha.
 - 🛍️ **Cadastro de produtos:** inclusão de nome, quantidade e unidade de medida.
 - 📋 **Listagem de produtos:** visualização dos produtos cadastrados pelo usuário conectado.
 - 🔒 **Separação por usuário:** cada usuário visualiza e gerencia apenas os próprios produtos.
@@ -24,17 +24,18 @@ O projeto está em desenvolvimento e tem como objetivo oferecer uma experiência
 - ♻️ **Reativação de produtos:** recuperação de produtos removidos anteriormente, preservando o registro original.
 - 🚫 **Validação de duplicidade:** prevenção de cadastros repetidos para o mesmo usuário, com mensagens de orientação.
 - 📊 **Resumo da lista:** exibição do total de produtos, comprados e pendentes.
+- 📄 **Paginação:** divisão da lista em páginas com até oito produtos por página, facilitando a navegação.
+- ◀️ **Navegação entre páginas:** controles para avançar, voltar e selecionar uma página específica.
 - 💬 **Mensagens de feedback:** confirmação das operações realizadas e avisos ao usuário.
 - 📱 **Interface responsiva:** estilos preparados para diferentes tamanhos de tela.
 - 🔐 **Proteção de páginas:** acesso às funcionalidades da lista restrito a usuários autenticados.
 
-**Observação sobre a recuperação de senha:** o fluxo foi testado no ambiente local, incluindo a geração do link, a redefinição da senha e o login com a nova senha. Atualmente, o conteúdo do e-mail é exibido no terminal. O envio para uma caixa de entrada real será configurado na etapa de publicação.
+**Observação sobre a recuperação de senha:** a funcionalidade foi implementada e testada no ambiente local, incluindo a geração do link, a redefinição da senha e o login com a nova senha. Atualmente, o e-mail é exibido no terminal. O envio para uma caixa de entrada real será configurado na etapa de publicação.
 
 ### 🛠️ Próximas funcionalidades
 
-- 📄 **Paginação:** dividir a lista de produtos em páginas para facilitar a navegação.
 - 🔎 **Filtros de visualização:** permitir visualizar todos os produtos, apenas os pendentes ou apenas os comprados.
-- 🧪 **Testes automatizados:** testar autenticação, cadastro, recuperação de senha, edição, remoção, reativação e controle de acesso.
+- 🧪 **Testes automatizados:** testar autenticação, cadastro, recuperação de senha, edição, remoção, reativação, paginação e controle de acesso.
 - 🎨 **Melhorias visuais:** aprimorar continuamente a experiência e a usabilidade.
 - 🚀 **Publicação:** preparar e disponibilizar a aplicação em ambiente de produção, incluindo o envio real de e-mails e a revisão das configurações de segurança.
 
@@ -181,7 +182,10 @@ A aplicação estará disponível localmente em:
 | Redefinição de senha | `/usuarios/senha/redefinir/<uidb64>/<token>/` |
 | Confirmação da nova senha | `/usuarios/senha/redefinida/` |
 | Lista de compras | `/produtos/` |
+| Página específica da lista | `/produtos/?page=2` |
 | Adicionar produto | `/produtos/novo/` |
+
+A paginação utiliza o parâmetro `page` na URL para identificar a página selecionada.
 
 ---
 
@@ -237,12 +241,12 @@ A proposta é evoluir gradualmente a aplicação, implementando funcionalidades 
 - [x] Reativação de produtos removidos.
 - [x] Validação de produtos duplicados.
 - [x] Resumo de produtos, comprados e pendentes.
-- [x] Recuperação de senha com geração de link temporário.
-- [x] Redefinição de senha e teste de login com a nova senha.
+- [x] Recuperação e redefinição de senha testadas localmente.
+- [x] Paginação da lista de produtos.
+- [x] Navegação entre páginas e estilização dos controles de paginação.
 
 ### Próximas etapas
 
-- [ ] Implementar a paginação da lista de produtos.
 - [ ] Implementar filtros de visualização.
 - [ ] Criar testes automatizados.
 - [ ] Aprimorar a interface e a usabilidade.
