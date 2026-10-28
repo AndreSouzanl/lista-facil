@@ -21,6 +21,7 @@ def lista(request):
         ],
     )
 
+    # Contadores gerais da lista
     total_produtos = produtos.count()
 
     total_comprados = produtos.filter(
@@ -28,9 +29,30 @@ def lista(request):
     ).count()
 
     total_pendentes = total_produtos - total_comprados
-    
+
+    # Identifica o filtro selecionado
+    filtro_atual = request.GET.get("filtro", "todos")
+
+    # Aplica o filtro escolhido
+    if filtro_atual == "pendentes":
+        produtos = produtos.filter(
+            status__in=[
+                Produto.Status.ATIVO,
+                Produto.Status.EDITADO,
+            ]
+        )
+
+    elif filtro_atual == "comprados":
+        produtos = produtos.filter(
+            status=Produto.Status.FINALIZADO
+        )
+
+    else:
+        filtro_atual = "todos"
+
     # Paginação: 8 produtos por página
     paginator = Paginator(produtos, 8)
+
     numero_pagina = request.GET.get("page")
     produtos_paginados = paginator.get_page(numero_pagina)
 
@@ -38,7 +60,8 @@ def lista(request):
         "produtos": produtos_paginados,
         "total_produtos": total_produtos,
         "total_comprados": total_comprados,
-        "total_pendentes": total_pendentes, 
+        "total_pendentes": total_pendentes,
+        "filtro_atual": filtro_atual,
     }
 
     return render(request, "produtos/lista.html", contexto)

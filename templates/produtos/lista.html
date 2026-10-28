@@ -47,6 +47,33 @@
             <h2>Seus produtos</h2>
             <span>{{ total_produtos }} produto(s)</span>
         </div>
+        <nav class="filtros-produtos" aria-label="Filtrar produtos">
+
+            <a
+                href="?filtro=todos"
+                class="filtro-link {% if filtro_atual == 'todos' %}filtro-ativo{% endif %}"
+                {% if filtro_atual == 'todos' %}aria-current="page"{% endif %}
+            >
+                Todos ({{ total_produtos }})
+            </a>
+
+            <a
+                href="?filtro=pendentes"
+                class="filtro-link {% if filtro_atual == 'pendentes' %}filtro-ativo{% endif %}"
+                {% if filtro_atual == 'pendentes' %}aria-current="page"{% endif %}
+            >
+                Pendentes ({{ total_pendentes }})
+            </a>
+
+            <a
+                href="?filtro=comprados"
+                class="filtro-link {% if filtro_atual == 'comprados' %}filtro-ativo{% endif %}"
+                {% if filtro_atual == 'comprados' %}aria-current="page"{% endif %}
+            >
+                Comprados ({{ total_comprados }})
+            </a>
+
+        </nav>
 
         {% if produtos %}
             <div class="tabela-responsiva">
@@ -137,7 +164,7 @@
 
                     {% if produtos.has_previous %}
                         <a
-                            href="?page={{ produtos.previous_page_number }}"
+                           href="?filtro={{ filtro_atual }}&page={{ produtos.previous_page_number }}"
                             class="pagina-link"
                         >
                             Anterior
@@ -156,7 +183,7 @@
                                 </span>
                             {% else %}
                                 <a
-                                    href="?page={{ numero }}"
+                                    href="?filtro={{ filtro_atual }}&page={{ numero }}"
                                     class="pagina-link"
                                 >
                                     {{ numero }}
@@ -168,7 +195,7 @@
 
                     {% if produtos.has_next %}
                         <a
-                            href="?page={{ produtos.next_page_number }}"
+                            href="?filtro={{ filtro_atual }}&page={{ produtos.next_page_number }}"
                             class="pagina-link"
                         >
                             Próxima
