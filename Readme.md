@@ -24,8 +24,11 @@ O projeto está em desenvolvimento e tem como objetivo oferecer uma experiência
 - ♻️ **Reativação de produtos:** recuperação de produtos removidos anteriormente, preservando o registro original.
 - 🚫 **Validação de duplicidade:** prevenção de cadastros repetidos para o mesmo usuário, com mensagens de orientação.
 - 📊 **Resumo da lista:** exibição do total de produtos, comprados e pendentes.
-- 📄 **Paginação:** divisão da lista em páginas com até oito produtos por página, facilitando a navegação.
+- 📄 **Paginação:** divisão da lista em páginas com até oito produtos por página.
 - ◀️ **Navegação entre páginas:** controles para avançar, voltar e selecionar uma página específica.
+- 🔎 **Filtros de visualização:** opções para visualizar todos os produtos, somente os pendentes ou somente os comprados.
+- 🔄 **Filtros integrados à paginação:** manutenção do filtro selecionado durante a navegação entre páginas.
+- 🎨 **Estilização dos filtros:** destaque da opção selecionada e botões adaptados para dispositivos móveis, mantendo as três opções na mesma linha.
 - 💬 **Mensagens de feedback:** confirmação das operações realizadas e avisos ao usuário.
 - 📱 **Interface responsiva:** estilos preparados para diferentes tamanhos de tela.
 - 🔐 **Proteção de páginas:** acesso às funcionalidades da lista restrito a usuários autenticados.
@@ -34,10 +37,10 @@ O projeto está em desenvolvimento e tem como objetivo oferecer uma experiência
 
 ### 🛠️ Próximas funcionalidades
 
-- 🔎 **Filtros de visualização:** permitir visualizar todos os produtos, apenas os pendentes ou apenas os comprados.
-- 🧪 **Testes automatizados:** testar autenticação, cadastro, recuperação de senha, edição, remoção, reativação, paginação e controle de acesso.
+- 🧪 **Testes automatizados:** verificar o funcionamento da autenticação, recuperação de senha, cadastro, edição, remoção, reativação, filtros e paginação.
 - 🎨 **Melhorias visuais:** aprimorar continuamente a experiência e a usabilidade.
-- 🚀 **Publicação:** preparar e disponibilizar a aplicação em ambiente de produção, incluindo o envio real de e-mails e a revisão das configurações de segurança.
+- 📧 **Configuração de e-mail real:** permitir o envio de mensagens de recuperação de senha para a caixa de entrada dos usuários.
+- 🚀 **Publicação:** preparar e disponibilizar a aplicação em ambiente de produção, com revisão das configurações de segurança.
 
 ---
 
@@ -182,10 +185,13 @@ A aplicação estará disponível localmente em:
 | Redefinição de senha | `/usuarios/senha/redefinir/<uidb64>/<token>/` |
 | Confirmação da nova senha | `/usuarios/senha/redefinida/` |
 | Lista de compras | `/produtos/` |
+| Lista filtrada | `/produtos/?filtro=pendentes` |
+| Produtos comprados | `/produtos/?filtro=comprados` |
 | Página específica da lista | `/produtos/?page=2` |
+| Página filtrada e paginada | `/produtos/?filtro=pendentes&page=2` |
 | Adicionar produto | `/produtos/novo/` |
 
-A paginação utiliza o parâmetro `page` na URL para identificar a página selecionada.
+A paginação utiliza o parâmetro `page` na URL, enquanto os filtros utilizam o parâmetro `filtro`.
 
 ---
 
@@ -212,6 +218,14 @@ As unidades de medida disponíveis incluem unidade, quilograma, grama, litro, ca
 | `removido` | Produto retirado da lista por remoção lógica. |
 
 O modelo possui uma restrição de unicidade que evita registros duplicados com o mesmo nome para um mesmo usuário. A reativação recupera um produto removido, preservando seu registro original.
+
+### 🔎 Funcionamento dos filtros
+
+- **Todos:** exibe todos os produtos que permanecem na lista, incluindo os comprados.
+- **Pendentes:** exibe os produtos que ainda não foram marcados como comprados.
+- **Comprados:** exibe somente os produtos finalizados.
+
+Os contadores do resumo continuam apresentando os totais gerais da lista, independentemente do filtro selecionado.
 
 ---
 
@@ -243,11 +257,13 @@ A proposta é evoluir gradualmente a aplicação, implementando funcionalidades 
 - [x] Resumo de produtos, comprados e pendentes.
 - [x] Recuperação e redefinição de senha testadas localmente.
 - [x] Paginação da lista de produtos.
-- [x] Navegação entre páginas e estilização dos controles de paginação.
+- [x] Navegação entre páginas e estilização dos controles.
+- [x] Filtros para todos, pendentes e comprados.
+- [x] Integração dos filtros com a paginação.
+- [x] Ajuste responsivo dos botões de filtro.
 
 ### Próximas etapas
 
-- [ ] Implementar filtros de visualização.
 - [ ] Criar testes automatizados.
 - [ ] Aprimorar a interface e a usabilidade.
 - [ ] Configurar o envio real de e-mails para recuperação de senha.
